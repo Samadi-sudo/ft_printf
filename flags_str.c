@@ -22,16 +22,13 @@ void	flag_string_suite(t_flags *flag, int *counter, char *tmp)
 {
 	int	len;
 
-	if (!tmp)
-		len = 0;
-	else
-		len = ft_strlen(tmp);
+	len = ft_strlen(tmp);
 	if (flag->dot && flag->precision >= 0 && flag->precision < len)
 		len = flag->precision;
 	flag->width -= len;
 	if (!flag->minus)
 		str_padding(counter, flag->width);
-	if (tmp && len > 0)
+	if (len > 0)
 	{
 		write(1, tmp, len);
 		*counter += len;
@@ -44,13 +41,15 @@ void	flag_string(t_flags *flag, char *str, int *counter)
 {
 	char	*tmp;
 
-	tmp = str;
-	if (!tmp)
+	if (str == NULL)
 	{
-		if (flag->dot)
-			tmp = NULL;
+		if (flag->dot && flag->precision >= 0 && flag->precision < 6)
+			tmp = "";
 		else
 			tmp = "(null)";
 	}
+	else
+		tmp = str;
 	flag_string_suite(flag, counter, tmp);
 }
+
